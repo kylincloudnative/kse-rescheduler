@@ -1,0 +1,88 @@
+{
+  "apiVersion": "batch/v1beta1",
+  "kind": "CronJob",
+  "metadata": {
+    "annotations": {},
+    "creationTimestamp": "2022-12-21T03:08:37Z",
+    "labels": {
+      "app.kubernetes.io/managed-by": "Helm",
+      "chart": "opensearch-curator-1.3.3",
+      "heritage": "Helm"
+    },
+    "name": "opensearch-curator",
+    "namespace": "ha",
+    "resourceVersion": "72740310",
+    "selfLink": "/apis/batch/v1beta1/namespaces/ha/cronjobs/opensearch-curator",
+    "uid": "aa451673-754b-4c6b-8f59-b744f23f275e"
+  },
+  "spec": {
+    "concurrencyPolicy": "Allow",
+    "failedJobsHistoryLimit": 1,
+    "jobTemplate": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "app": "opensearch-curator",
+          "release": "opensearch-logging-curator"
+        }
+      },
+      "spec": {
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "app": "opensearch-curator",
+              "release": "opensearch-logging-curator"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "args": [
+                  "--config",
+                  "/etc/es-curator/config.yml",
+                  "/etc/es-curator/action_file.yml"
+                ],
+                "command": [
+                  "curator/curator"
+                ],
+                "image": "registry.kse.com:4001/solution/ha/opensearch/amd64/opensearch-curator:v0.0.5",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "elasticsearch-curator",
+                "resources": {},
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/etc/es-curator",
+                    "name": "config-volume"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Never",
+            "schedulerName": "default-scheduler",
+            "securityContext": {
+              "runAsUser": 16
+            },
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [
+              {
+                "configMap": {
+                  "defaultMode": 420,
+                  "name": "opensearch-curator-config"
+                },
+                "name": "config-volume"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "schedule": "0 1 * * *",
+    "successfulJobsHistoryLimit": 3,
+    "suspend": false
+  },
+  "status": {}
+}

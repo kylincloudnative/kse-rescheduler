@@ -1,0 +1,173 @@
+{
+  "apiVersion": "v1",
+  "kind": "Pod",
+  "metadata": {
+    "annotations": {
+      "cni.projectcalico.org/containerID": "3f56c3f5ba4e5fab610b7449719e262d40006c124c27100b0e300194d143b5a9",
+      "cni.projectcalico.org/podIP": "10.128.40.76/32",
+      "cni.projectcalico.org/podIPs": "10.128.40.76/32"
+    },
+    "creationTimestamp": "2023-05-08T07:05:17Z",
+    "generateName": "frontend-",
+    "labels": {
+      "tier": "frontend"
+    },
+    "name": "frontend-9rb2h",
+    "namespace": "default",
+    "ownerReferences": [
+      {
+        "apiVersion": "apps/v1",
+        "blockOwnerDeletion": true,
+        "controller": true,
+        "kind": "ReplicaSet",
+        "name": "frontend",
+        "uid": "83fc2147-458a-4776-ac9a-fecfc7024ff4"
+      }
+    ],
+    "resourceVersion": "203664001",
+    "uid": "f109cac2-95e5-4610-8265-2499c6f4bf59"
+  },
+  "spec": {
+    "containers": [
+      {
+        "image": "gcr.io/google_samples/gb-frontend:v3",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "php-redis",
+        "resources": {},
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "kube-api-access-pgh2q",
+            "readOnly": true
+          }
+        ]
+      }
+    ],
+    "dnsPolicy": "ClusterFirst",
+    "enableServiceLinks": true,
+    "nodeName": "master1",
+    "preemptionPolicy": "PreemptLowerPriority",
+    "priority": 0,
+    "restartPolicy": "Always",
+    "schedulerName": "default-scheduler",
+    "securityContext": {},
+    "serviceAccount": "default",
+    "serviceAccountName": "default",
+    "terminationGracePeriodSeconds": 30,
+    "tolerations": [
+      {
+        "effect": "NoExecute",
+        "key": "node.kubernetes.io/not-ready",
+        "operator": "Exists",
+        "tolerationSeconds": 300
+      },
+      {
+        "effect": "NoExecute",
+        "key": "node.kubernetes.io/unreachable",
+        "operator": "Exists",
+        "tolerationSeconds": 300
+      }
+    ],
+    "volumes": [
+      {
+        "name": "kube-api-access-pgh2q",
+        "projected": {
+          "defaultMode": 420,
+          "sources": [
+            {
+              "serviceAccountToken": {
+                "expirationSeconds": 3607,
+                "path": "token"
+              }
+            },
+            {
+              "configMap": {
+                "items": [
+                  {
+                    "key": "ca.crt",
+                    "path": "ca.crt"
+                  }
+                ],
+                "name": "kube-root-ca.crt"
+              }
+            },
+            {
+              "downwardAPI": {
+                "items": [
+                  {
+                    "fieldRef": {
+                      "apiVersion": "v1",
+                      "fieldPath": "metadata.namespace"
+                    },
+                    "path": "namespace"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "status": {
+    "conditions": [
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2023-05-08T07:05:17Z",
+        "status": "True",
+        "type": "Initialized"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2023-05-08T07:05:17Z",
+        "message": "containers with unready status: [php-redis]",
+        "reason": "ContainersNotReady",
+        "status": "False",
+        "type": "Ready"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2023-05-08T07:05:17Z",
+        "message": "containers with unready status: [php-redis]",
+        "reason": "ContainersNotReady",
+        "status": "False",
+        "type": "ContainersReady"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2023-05-08T07:05:17Z",
+        "status": "True",
+        "type": "PodScheduled"
+      }
+    ],
+    "containerStatuses": [
+      {
+        "image": "gcr.io/google_samples/gb-frontend:v3",
+        "imageID": "",
+        "lastState": {},
+        "name": "php-redis",
+        "ready": false,
+        "restartCount": 0,
+        "started": false,
+        "state": {
+          "waiting": {
+            "message": "Back-off pulling image \"gcr.io/google_samples/gb-frontend:v3\"",
+            "reason": "ImagePullBackOff"
+          }
+        }
+      }
+    ],
+    "hostIP": "172.20.41.97",
+    "phase": "Running",
+    "podIP": "10.128.40.76",
+    "podIPs": [
+      {
+        "ip": "10.128.40.76"
+      }
+    ],
+    "qosClass": "BestEffort",
+    "startTime": "2023-05-08T07:05:17Z"
+  }
+}

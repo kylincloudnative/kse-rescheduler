@@ -1,0 +1,55 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "ReplicaSet",
+  "metadata": {
+    "annotations": {},
+    "creationTimestamp": "2023-05-08T07:05:17Z",
+    "generation": 1,
+    "labels": {
+      "app": "guestbook",
+      "tier": "frontend"
+    },
+    "name": "frontend",
+    "namespace": "default",
+    "resourceVersion": "203662172",
+    "uid": "83fc2147-458a-4776-ac9a-fecfc7024ff4"
+  },
+  "spec": {
+    "replicas": 3,
+    "selector": {
+      "matchLabels": {
+        "tier": "frontend"
+      }
+    },
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "tier": "frontend"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "image": "gcr.io/google_samples/gb-frontend:v3",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "php-redis",
+            "resources": {},
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File"
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {},
+        "terminationGracePeriodSeconds": 30
+      }
+    }
+  },
+  "status": {
+    "fullyLabeledReplicas": 3,
+    "observedGeneration": 1,
+    "replicas": 3
+  }
+}

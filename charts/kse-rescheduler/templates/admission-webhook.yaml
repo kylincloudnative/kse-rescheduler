@@ -1,0 +1,42 @@
+{{- $fqdn := printf "%s.%s.svc" (include "kse-rescheduler.serviceName" .) .Release.Namespace }}
+{{- $ca := genSelfSignedCert $fqdn (list) (list $fqdn) 5114 }}
+apiVersion: v1
+data:
+  tls.crt: {{ ternary (b64enc (trim $ca.Cert)) (b64enc (trim .Values.webhook.crtPEM)) (empty .Values.webhook.crtPEM) }}
+  tls.key: {{ ternary (b64enc (trim $ca.Key)) (b64enc (trim .Values.webhook.keyPEM)) (empty .Values.webhook.keyPEM) }}
+kind: Secret
+metadata:
+  name: {{ include "kse-rescheduler.fullname" . }}-tls
+  labels:
+    {{- include "kse-rescheduler.labels" . | nindent 4 }}
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: {{ include "kse-rescheduler.fullname" . }}
+  labels:
+    {{- include "kse-rescheduler.labels" . | nindent 4 }}
+webhooks:
+  - name: admission-controller.kse-rescheduler.io
+    namespaceSelector:
+      matchExpressions:
+      - key: kse-rescheduler/controller-namespace
+        operator: NotIn
+        values: ["true"]
+    sideEffects: None
+    failurePolicy: {{ .Values.webhook.failurePolicy }}
+    admissionReviewVersions: ["v1", "v1beta1"]
+    clientConfig:
+      service:
+        name: {{ include "kse-rescheduler.serviceName" . }}
+        namespace: {{ .Release.Namespace }}
+        path: "/"
+        port: {{ .Values.service.port }}
+      caBundle: {{ ternary (b64enc (trim $ca.Cert)) (b64enc (trim .Values.webhook.caBundle)) (empty .Values.webhook.caBundle) }}
+    rules:
+      - operations: [ "CREATE" ]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+        scope: "Namespaced"
+

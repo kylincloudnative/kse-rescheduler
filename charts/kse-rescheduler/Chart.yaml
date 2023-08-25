@@ -1,0 +1,9 @@
+apiVersion: v2
+name: kse-rescheduler
+description: A Helm chart for kse-rescheduler
+
+type: application
+
+version: 0.1.0
+
+appVersion: "1.0-beta1"

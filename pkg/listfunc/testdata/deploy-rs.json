@@ -1,0 +1,75 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "ReplicaSet",
+  "metadata": {
+    "annotations": {
+      "deployment.kubernetes.io/desired-replicas": "3",
+      "deployment.kubernetes.io/max-replicas": "4",
+      "deployment.kubernetes.io/revision": "1",
+      "kse.com/deploy": "{\"currentReschedulingTimes\": 2, \"deployScheduledHosts\": [\"node1\", \"node2\"]}\n",
+      "scheduling-retries": "3"
+    },
+    "creationTimestamp": "2023-05-08T05:59:58Z",
+    "generation": 1,
+    "labels": {
+      "app": "nginx",
+      "pod-template-hash": "6595874d85"
+    },
+    "name": "nginx-deployment-6595874d85",
+    "namespace": "default",
+    "ownerReferences": [
+      {
+        "apiVersion": "apps/v1",
+        "blockOwnerDeletion": true,
+        "controller": true,
+        "kind": "Deployment",
+        "name": "nginx-deployment",
+        "uid": "ffb35ea4-4779-443a-b050-92df7d9e9ede"
+      }
+    ],
+    "resourceVersion": "203578148",
+    "uid": "10e3d0fc-b595-487c-946b-58560d092fdd"
+  },
+  "spec": {
+    "replicas": 3,
+    "selector": {
+      "matchLabels": {
+        "app": "nginx",
+        "pod-template-hash": "6595874d85"
+      }
+    },
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "app": "nginx",
+          "pod-template-hash": "6595874d85"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "image": "nginx:1.14.2",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "nginx",
+            "ports": [
+              {
+                "containerPort": 80,
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {},
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File"
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {},
+        "terminationGracePeriodSeconds": 30
+      }
+    }
+  },
+  "status": {}
+}

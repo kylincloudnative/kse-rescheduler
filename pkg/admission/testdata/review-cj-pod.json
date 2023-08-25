@@ -1,0 +1,150 @@
+{
+  "kind": "AdmissionReview",
+  "apiVersion": "admission.k8s.io/v1",
+  "request": {
+    "uid": "0c0829ff-c2f5-4634-a1c3-098147304d03",
+    "kind": {
+      "group": "",
+      "version": "v1",
+      "kind": "Pod"
+    },
+    "resource": {
+      "group": "",
+      "version": "v1",
+      "resource": "pods"
+    },
+    "requestKind": {
+      "group": "",
+      "version": "v1",
+      "kind": "Pod"
+    },
+    "requestResource": {
+      "group": "",
+      "version": "v1",
+      "resource": "pods"
+    },
+    "name": "opensearch-curator-1683507600-227bm",
+    "namespace": "default",
+    "operation": "CREATE",
+    "userInfo": {
+      "username": "system:serviceaccount:kube-system:cronjob-controller",
+      "uid": "9106ec03-8d1e-4bfb-8226-023f2827650c",
+      "groups": [
+        "system:serviceaccounts",
+        "system:serviceaccounts:kube-system",
+        "system:authenticated"
+      ]
+    },
+    "object": {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "creationTimestamp": "2023-05-08T01:00:04Z",
+        "generateName": "opensearch-curator-1683507600-",
+        "labels": {
+          "app": "opensearch-curator",
+          "controller-uid": "11b2fdba-e596-4648-a120-27cf1e5bdab0",
+          "job-name": "opensearch-curator-1683507600",
+          "release": "opensearch-logging-curator"
+        },
+        "name": "opensearch-curator-1683507600-227bm",
+        "namespace": "ha",
+        "ownerReferences": [
+          {
+            "apiVersion": "batch/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Job",
+            "name": "opensearch-curator-1683507600",
+            "uid": "11b2fdba-e596-4648-a120-27cf1e5bdab0"
+          }
+        ],
+        "resourceVersion": "72740272",
+        "selfLink": "/api/v1/namespaces/ha/pods/opensearch-curator-1683507600-227bm",
+        "uid": "2c67fad5-1202-40cf-8e67-8c5538e56e29"
+      },
+      "spec": {
+        "containers": [
+          {
+            "args": [
+              "--config",
+              "/etc/es-curator/config.yml",
+              "/etc/es-curator/action_file.yml"
+            ],
+            "command": [
+              "curator/curator"
+            ],
+            "image": "registry.kse.com:4001/solution/ha/opensearch/amd64/opensearch-curator:v0.0.5",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "elasticsearch-curator",
+            "resources": {},
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/etc/es-curator",
+                "name": "config-volume"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "default-token-vk8bv",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "worker1",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "runAsUser": 16
+        },
+        "serviceAccount": "default",
+        "serviceAccountName": "default",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "configMap": {
+              "defaultMode": 420,
+              "name": "opensearch-curator-config"
+            },
+            "name": "config-volume"
+          },
+          {
+            "name": "default-token-vk8bv",
+            "secret": {
+              "defaultMode": 420,
+              "secretName": "default-token-vk8bv"
+            }
+          }
+        ]
+      },
+      "status": {}
+    }
+  ,
+    "oldObject": null,
+    "dryRun": false,
+    "options": {
+      "kind": "CreateOptions",
+      "apiVersion": "meta.k8s.io/v1"
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "apiVersion": "batch/v1",
+  "kind": "Job",
+  "metadata": {
+    "annotations": {},
+    "creationTimestamp": "2023-05-08T07:41:38Z",
+    "generation": 1,
+    "labels": {
+      "controller-uid": "1555b9d1-801e-41b9-944e-25f3cc4aaa74",
+      "job-name": "pi"
+    },
+    "name": "pi",
+    "namespace": "default",
+    "resourceVersion": "203716184",
+    "uid": "1555b9d1-801e-41b9-944e-25f3cc4aaa74"
+  },
+  "spec": {
+    "backoffLimit": 4,
+    "completionMode": "NonIndexed",
+    "completions": 1,
+    "parallelism": 1,
+    "selector": {
+      "matchLabels": {
+        "controller-uid": "1555b9d1-801e-41b9-944e-25f3cc4aaa74"
+      }
+    },
+    "suspend": false,
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "controller-uid": "1555b9d1-801e-41b9-944e-25f3cc4aaa74",
+          "job-name": "pi"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "command": [
+              "perl",
+              "-Mbignum=bpi",
+              "-wle",
+              "print bpi(2000)"
+            ],
+            "image": "perl:5.34.0",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "pi",
+            "resources": {},
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File"
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {},
+        "terminationGracePeriodSeconds": 30
+      }
+    }
+  },
+  "status": {
+    "active": 1,
+    "ready": 0,
+    "startTime": "2023-05-08T07:41:38Z"
+  }
+}

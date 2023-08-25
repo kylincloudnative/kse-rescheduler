@@ -1,0 +1,65 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "StatefulSet",
+  "metadata": {
+    "annotations": {
+      "kse.com/sts-pods-map": "{\"my-web-0\":{\"currentReschedulingTimes\":2,\"podScheduledHosts\":[\"node1\",\"node2\"]},\"my-web-1\":{\"currentReschedulingTimes\":1,\"podScheduledHosts\":[\"node2\"]}}",
+      "scheduling-retries": "3"
+    },
+    "creationTimestamp": null,
+    "generation": 1,
+    "name": "my-web",
+    "namespace": "default",
+    "uid": "ce1e9b2b-be76-4563-80c7-804f260d56c8"
+  },
+  "spec": {
+    "podManagementPolicy": "OrderedReady",
+    "replicas": 3,
+    "revisionHistoryLimit": 10,
+    "selector": {
+      "matchLabels": {
+        "app": "nginx"
+      }
+    },
+    "serviceName": "nginx",
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "app": "nginx"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "image": "nginx:1.20.2",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "web",
+            "ports": [
+              {
+                "containerPort": 80,
+                "name": "web",
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {},
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File"
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {},
+        "terminationGracePeriodSeconds": 10
+      }
+    },
+    "updateStrategy": {
+      "rollingUpdate": {
+        "partition": 0
+      },
+      "type": "RollingUpdate"
+    }
+  },
+  "status": {}
+}
